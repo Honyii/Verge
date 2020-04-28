@@ -14,7 +14,6 @@ const comparePassword = (hashedPassword, password) => {
 
 dotenv.config();
 
-
   const getToken = (id, email, first_name, last_name, state, is_admin) => {
     const key = process.env.TOKEN_SECRET;
     const token = jwt.sign({ 
@@ -52,7 +51,7 @@ async function createUser(body) {
             result
         }
         return Promise.resolve({
-            status: "Success!",
+            status: "User created!",
             code: 201,
             message: "You have successfully signed up", 
             data
@@ -87,9 +86,9 @@ async function createAdmin(body) {
             result
         }
         return Promise.resolve({
-            status: "Success!",
+            status: "Admin created!",
             code: 201,
-            message: "You have successfully signed up", 
+            message: "You have successfully signed up as an admin", 
             data
         })
     } catch (e) {
@@ -117,7 +116,7 @@ async function checkIfUserDoesNotExist(email) {
             return Promise.reject({
                 status: "error",
                 code: 409,
-                message: "Email Already Exists. Input another e-mail",
+                message: "Email Already Exists",
             });
         }
     } catch (e) {
@@ -153,7 +152,7 @@ async function checkIfUserExist(id) {
         return Promise.reject({
             status: "error",
             code: 500,
-            message: "Error finding user by Id",
+            message: "Error finding user",
         });
     }
 }
@@ -242,7 +241,7 @@ async function createParcel(user_id, body) {
         return Promise.reject({
             status: "error",
             code: 500,
-            message: "Error creating order",
+            message: "Error creating parcel order",
         });
     }
 }
@@ -293,14 +292,14 @@ async function checkStatus(user_id, id) {
             return Promise.reject({
                 status: "error",
                 code: 401,
-                message: "Unauthorized. Parcel has been shipped"
+                message: "Access denied! Parcel has been shipped"
             });
         }
     } catch (e) {
         return Promise.reject({
             status: "error",
             code: 500,
-            message: "Error finding user",
+            message: "Error finding parcel"
         });
     }
 }
@@ -488,7 +487,7 @@ async function findUserParcel(id) {
             return Promise.reject({
                 status: "erorr",
                 code: 500,
-                message: "Not found",
+                message: "Parcel Not found",
             });
         }
         if (rowCount > 0) {

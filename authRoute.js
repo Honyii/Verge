@@ -69,6 +69,16 @@ router.post(
                 message: "Please fill all fields",
             });
         }
+        if(!validateEmail(email)) {
+            return res.status(400).json({
+                message: "Input a valid Email"
+            })
+        } 
+        if (!validatePassword(password)) {
+            return res.status(400).json({
+                message: "Password must not be less than 6 charcters"
+            })
+        }        
         next();
     },
     async (req, res) => {
@@ -92,6 +102,16 @@ router.post(
                 message: "Please fill all fields",
             });
         }
+        if(!validateEmail(email)) {
+            return res.status(400).json({
+                message: "Input a valid Email"
+            })
+        } 
+        if (!validatePassword(password)) {
+            return res.status(400).json({
+                message: "Password must not be less than 6 charcters"
+            })
+        }        
         next();
     },
     async (req, res) => {
@@ -105,7 +125,7 @@ router.post(
 );
 
 router.post(
-    "/parcel/:user_id", verifyToken,
+    "/parcel/:user_id", verifyUserToken,
     (req, res, next) => {
         const { price, weight, location, destination, sender_name, sender_note } = req.body;
         if (!price || !weight || !location || !destination || !sender_name || !sender_note) {
