@@ -1,0 +1,24 @@
+{
+  "name": "verge",
+  "version": "1.0.0",
+  "description": "A parcel delivery network ",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon node index",
+    "test": "mocha test/index.js --exit"
+  },
+  "author": "amaechi",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mocha": "^7.1.1",
+    "moment": "^2.24.0",
+    "nodemon": "^2.0.3",
+    "pg": "^8.0.3"
+  }
+}
