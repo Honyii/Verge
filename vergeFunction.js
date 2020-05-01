@@ -52,6 +52,7 @@ async function createUser(body) {
                 status: "User Created!",
                 code: 201,
                 message: "You have successfully signed up!",
+                data
             });
         }
         if (rowCount == 0) {
