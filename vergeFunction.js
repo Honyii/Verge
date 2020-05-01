@@ -42,24 +42,27 @@ async function createUser(body) {
     try {
         const { rows, rowCount } = await db.query(queryObj);
         if (rowCount > 0) {
-            // const result = rows[0];
+            const result = rows[0];
             const tokens = getToken(result.id, result.email);
             const data = {
                 token: tokens,
-                // result
+                result
         }
             return Promise.resolve({
                 status: "User Created!",
                 code: 201,
                 message: "You have successfully signed up!",
-                data
+                token: data.token,
+                first_name: data.result.first_name,
+                last_name: data.result.last_name,
+                state: data.result.state
             });
         }
         if (rowCount == 0) {
             return Promise.reject({
                 status: "Error",
                 code: 404,
-                message: "could not create user",
+                message: "Could not create user",
             });
         }
        
