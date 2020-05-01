@@ -23,7 +23,6 @@ const getAllUserCollection = async (req, res, next) => {
             is_admin: decoded.is_admin,
         }
         res.locals.user = req.user;
-        console.log("here")
         next();
     } catch (error) {
         console.log(error)
