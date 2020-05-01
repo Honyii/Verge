@@ -42,11 +42,11 @@ async function createUser(body) {
     try {
         const { rows, rowCount } = await db.query(queryObj);
         if (rowCount > 0) {
-            const result = rows[0];
+            // const result = rows[0];
             const tokens = getToken(result.id, result.email);
             const data = {
                 token: tokens,
-                result
+                // result
         }
             return Promise.resolve({
                 status: "User Created!",
