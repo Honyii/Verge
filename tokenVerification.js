@@ -55,6 +55,7 @@ const getAllUserCollection = async (req, res, next) => {
                 state: decoded.state,
                 is_admin: decoded.is_admin,
             }
+            res.locals.user = req.user;
             if (decoded.is_admin == true) {
                 return res.status(201).send("great")
             }
@@ -79,6 +80,7 @@ const getAllUserCollection = async (req, res, next) => {
                 is_admin: decoded.is_admin,
                 state: decoded.state
             }
+            res.locals.user = req.user;
             if (decoded.is_admin == false) {
                 return res.status(201).send("Authorized")
             }

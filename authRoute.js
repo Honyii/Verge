@@ -125,7 +125,7 @@ router.post(
 );
 
 router.post(
-    "/parcel", verifyUserToken,
+    "/parcel",  
     (req, res, next) => {
         const { price, weight, location, destination, sender_name, sender_note } = req.body;
         if (!price || !weight || !location || !destination || !sender_name || !sender_note) {
@@ -135,13 +135,12 @@ router.post(
         }
         next();
     },
+            verifyUserToken,
+           
 
-    async (req, res, ) => {
-        //
+    async (req, res ) => {
         const user_id = res.locals.user.id;
-        try {
-//
-            await getAllUserCollection(user_id);
+        try {      
             await checkIfUserExist(user_id);
             const result = await createParcel(user_id, req.body);
             return res.status(201).json(result);
@@ -153,11 +152,9 @@ router.post(
 
 router.put("/parcel/status/change/:id", verifyToken,
     async (req, res) => {
-        //
-        const user_id = res.locals.user.id;
+       const  user_id = res.locals.user.id;
         const { id } = req.params;
-        try {
-            await getAllUserCollection(user_id);
+        try {       
             await checkAdmin(user_id);
             const result = await changeOrderStatus(user_id, id, req.body);
             return res.status(200).json(result)
@@ -172,7 +169,6 @@ router.put("/parcel/destination/change/:id", verifyUserToken,
         const user_id = res.locals.user.id;
         const { id } = req.params;
         try {
-            await getAllUserCollection(user_id);
             await checkIfUserExist(user_id);
             await checkStatus(user_id, id);
             const result = await updateDestination(user_id, id, req.body);
@@ -189,7 +185,6 @@ router.put("/parcel/location/change/:id", verifyToken,
         const user_id = res.locals.user.id;
         const { id } = req.params;
         try {
-            await getAllUserCollection(user_id);
             await checkAdmin(user_id);
             const result = await updateLocation(user_id, id, req.body);
             return res.status(200).json(result)
