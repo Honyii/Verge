@@ -41,7 +41,7 @@ async function createUser(body) {
     };
     try {
         const { rows, rowCount } = await db.query(queryObj);
-        if (rowCount == 0) {
+        if (rowCount > 0) {
             const result = rows[0];
             const tokens = getToken(result.id, result.email);
             const data = {
@@ -54,11 +54,11 @@ async function createUser(body) {
                 message: "You have successfully signed up!",
             });
         }
-        if (rowCount > 0) {
+        if (rowCount == 0) {
             return Promise.reject({
                 status: "Error",
                 code: 404,
-                message: "Email Already Exists",
+                message: "could not create user",
             });
         }
        
