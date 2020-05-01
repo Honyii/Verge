@@ -40,20 +40,28 @@ async function createUser(body) {
         values: [email, hashedPassword, first_name, last_name, state, created_at, is_admin],
     };
     try {
-        const { rows } = await db.query(queryObj);
-        const result = rows[0];
-        console.log(rows[0]);     
-        const tokens = getToken(result.id, result.email);
-        const data = {
-            token: tokens,
-            result
+        const { rows, rowCount } = await db.query(queryObj);
+        if (rowCount == 0) {
+            const result = rows[0];
+            const tokens = getToken(result.id, result.email);
+            const data = {
+                token: tokens,
+                result
         }
-        return Promise.resolve({
-            status: "User created!",
-            code: 201,
-            message: "You have successfully signed up", 
-            data
-        })
+            return Promise.resolve({
+                status: "User Created!",
+                code: 201,
+                message: "You have successfully signed up!",
+            });
+        }
+        if (rowCount > 0) {
+            return Promise.reject({
+                status: "Error",
+                code: 404,
+                message: "Email Already Exists",
+            });
+        }
+       
     } catch (e) {
         console.log(e);
         return Promise.reject({
@@ -195,37 +203,6 @@ async function checkEmailAndPasswordMatch(body) {
             })
         }
 
-        
-     
-
-
-        // const result = rows[0];
-        // if (!result) {
-        //     return Promise.reject({
-        //         status: "error",
-        //         code: 404,
-        //         message: "Email not found",
-        //     });
-        // }
-        // if (!comparePassword(result.password, password)) {
-        //     return Promise.reject({
-        //         status: "error",
-        //         code: 400,
-        //         message: "Password is incorrect",
-        //     });
-        // }
-       
-        // const tokens = getToken(result.id, result.email);
-        // const data = {
-        //     token: tokens,
-        //     result
-        // }
-        // return Promise.resolve({
-        //     status: "success",
-        //     code: 202,
-        //     message: "Log in successful. Welcome!", 
-        //     data
-        // })
     } catch (e) {
         console.log(e);
         return Promise.reject({
