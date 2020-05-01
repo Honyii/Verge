@@ -16,8 +16,7 @@ dotenv.config();
 
   const getToken = (id, email, first_name, last_name, state, is_admin) => {
     const key = process.env.TOKEN_SECRET;
-    const token = jwt.sign({ 
-         
+    const token = jwt.sign({     
         id,
         email,
         first_name, 
@@ -29,7 +28,6 @@ dotenv.config();
     return token;
 }
 
-  
 
 async function createUser(body) {
     const date = new Date();
@@ -165,34 +163,68 @@ async function checkEmailAndPasswordMatch(body) {
     };
 
     try {
-        const { rows } = await db.query(queryObj);
-        const result = rows[0];
-        if (!result) {
+        const { rows, rowCount } = await db.query(queryObj);
+        if (rowCount == 0) {
             return Promise.reject({
                 status: "error",
                 code: 404,
                 message: "Email not found",
             });
         }
-        if (!comparePassword(result.password, password)) {
-            return Promise.reject({
-                status: "error",
-                code: 400,
-                message: "Password is incorrect",
-            });
+        
+        if (rowCount > 0) {
+            if (!comparePassword(result.password, password)) {
+                return Promise.reject({
+                    status: "error",
+                    code: 400,
+                    message: "Password is incorrect",
+                });
+            }
+  
+            const tokens = getToken(result.id, result.email);
+            const data = {
+                token: tokens,
+                result
+            }
+            return Promise.resolve({
+                status: "success",
+                code: 202,
+                message: "Log in successful. Welcome!", 
+                data
+            })
         }
+
+        
+     
+
+
+        // const result = rows[0];
+        // if (!result) {
+        //     return Promise.reject({
+        //         status: "error",
+        //         code: 404,
+        //         message: "Email not found",
+        //     });
+        // }
+        // if (!comparePassword(result.password, password)) {
+        //     return Promise.reject({
+        //         status: "error",
+        //         code: 400,
+        //         message: "Password is incorrect",
+        //     });
+        // }
        
-        const tokens = getToken(result.id, result.email);
-        const data = {
-            token: tokens,
-            result
-        }
-        return Promise.resolve({
-            status: "success",
-            code: 202,
-            message: "Log in successful. Welcome!", 
-            data
-        })
+        // const tokens = getToken(result.id, result.email);
+        // const data = {
+        //     token: tokens,
+        //     result
+        // }
+        // return Promise.resolve({
+        //     status: "success",
+        //     code: 202,
+        //     message: "Log in successful. Welcome!", 
+        //     data
+        // })
     } catch (e) {
         console.log(e);
         return Promise.reject({

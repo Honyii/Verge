@@ -10,7 +10,11 @@ dotenv.config()
 const getAllUserCollection = async (req, res, next) => {
     const { token } = req.headers;
     if (!token) {
-        return res.status(400).send("token is not provided")
+        return res.status(403).send({
+            status: "Forbidden",
+            code: 403,
+            message: "Access denied"
+        })
     }
     try {
         const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -25,8 +29,11 @@ const getAllUserCollection = async (req, res, next) => {
         res.locals.user = req.user;
         next();
     } catch (error) {
-        console.log(error)
-        return res.status(400).send("Getting details Failed")
+        return res.status(400).json({
+            status: "Error",
+            code: 400,
+            message: "Authentication failed"
+        })
     }
 }
     const validateEmail = (email) => {
@@ -43,7 +50,11 @@ const getAllUserCollection = async (req, res, next) => {
     const verifyToken = async (req, res, next) => {
         const { token } = req.headers;
         if (!token) {
-            return res.status(400).send("Access Denied")
+            return res.status(403).json({
+                status: "Forbidden",
+                code: 403,
+                message: "Access denied"
+            })
         }
         try {
             const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -61,14 +72,21 @@ const getAllUserCollection = async (req, res, next) => {
             }
             next();
         } catch (error) {
-            console.log(error)
-            return res.status(400).send("Authentication Failed")
+            return res.status(400).json({
+                status: "Error",
+                code: 400,
+                message: "Authentication failed"
+            })
         }
     }
     const verifyUserToken = async (req, res, next) => {
         const { token } = req.headers;
         if (!token) {
-            return res.status(400).send("Access Denied")
+            return res.status(403).json({
+                status: "Forbidden",
+                code: 403,
+                message: "Access denied"
+            })
         }
         try {
             const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -86,8 +104,11 @@ const getAllUserCollection = async (req, res, next) => {
             }
             next();
         } catch (error) {
-            console.log(error)
-            return res.status(400).send("Authentication Failed")
+            return res.status(400).send({
+                status: "Error",
+                code: 400,
+                message: "Authentication failed"
+            })
         }
     }
 module.exports = {
