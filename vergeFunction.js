@@ -173,6 +173,7 @@ async function checkEmailAndPasswordMatch(body) {
         }
         
         if (rowCount > 0) {
+            const result = rows[0];
             if (!comparePassword(result.password, password)) {
                 return Promise.reject({
                     status: "error",
