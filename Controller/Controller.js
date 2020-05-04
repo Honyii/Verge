@@ -48,10 +48,8 @@ async function parcelChangeController (req, res)  {
     
         const  user_id = res.locals.user.id;
          const { id } = req.params;
-         try { 
-            await checkIfUserExist(user_id);      
-             await checkAdmin(user_id);
-             
+         try {      
+             await checkAdmin(user_id);          
              const result = await changeOrderStatus(user_id, id, req.body);
              return res.status(200).json(result)
          } catch (e) {
