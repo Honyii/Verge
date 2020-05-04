@@ -42,7 +42,13 @@ async function getAllParcel() {
             status: "success",
             code: 200,
             message: "Successfully fetched all parcels",
-            data
+            data: rows
+            // price : data.result.price,
+            // weight : data.result.weight,
+            // location : data.result.location,
+            // destination : data.result.destination,
+            // senders_name: data.result.senders_name,
+            // senders_note : data.result.senders_note
         });
     } catch (e) {
         return Promise.reject({
