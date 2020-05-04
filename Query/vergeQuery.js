@@ -7,8 +7,9 @@ const queries = {
       last_name,
       state,
       created_at,
+      modified_at,
       is_admin
-    ) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+    ) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
     checkLoginDetails: `
     SELECT * FROM users WHERE email=($1) AND password = ($2)
   `,
@@ -29,8 +30,9 @@ const queries = {
       sender_name,
       sender_note,
       status,
-      created_at
-    ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+      created_at, 
+      modified_at
+    ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
   
     findAllParcel: `
       SELECT * FROM parcel 
@@ -43,15 +45,15 @@ const queries = {
     `,
     updateDestination:
       `
-    UPDATE parcel SET destination=($1), user_id=($2) WHERE id=($3) RETURNING *
+    UPDATE parcel SET destination=($1), user_id=($2), modified_at=($3) WHERE id=($4) RETURNING *
     `,
     updateStatus:
       `
-    UPDATE parcel SET status=($1), user_id=($2) WHERE id=($3) RETURNING *
+    UPDATE parcel SET status=($1), user_id=($2), modified_at=($3) WHERE id=($4) RETURNING *
     `,
     updateLocation:
       `
-    UPDATE parcel SET location=($1), user_id=($2) WHERE id=($3) RETURNING *
+    UPDATE parcel SET location=($1), user_id=($2), modified_at=($3) WHERE id=($4) RETURNING *
   `,
     getStatus: `
     SELECT * FROM parcel WHERE user_id=($1) AND id=($2)

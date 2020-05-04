@@ -1,9 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const authRoute = require("./authRoute");
+const authRoute = require("./Route/authRoute");
 
 let app = express();
 let port = process.env.PORT || 5000;
+// let port =  5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.listen(port, () => {
