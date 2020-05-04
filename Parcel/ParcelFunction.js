@@ -39,7 +39,9 @@ async function createParcel(user_id, body) {
             });
         }
     } catch (e) {
+        console.log(e)
         return Promise.reject({
+            
             status: "error",
             code: 500,
             message: "Error creating parcel order",
